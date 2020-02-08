@@ -10,7 +10,7 @@ package datastructure;
  * @author linqiye
  */
 public class Project {
-    public static String projectAssetDir = "/Users/linqiye/study/data_structure/project_asset";
+    public static String projectAssetDir = "/Users/linqiye/NetBeansProjects/DataStructure/asset/";
     public static String[] binaryTreeFiles = new String[]{
         "binaryTree0.json"
     };

@@ -1,0 +1,27 @@
+{
+  "info":"A",
+  "left":{
+  		"info":"B",
+    	"left":{
+          "info":"C",
+          "left":{
+            "info":"E"
+                }
+               },
+    	"right":{
+          "info":"D",
+          "right":{
+          	"info":"F"
+          }
+        }
+  },
+  "right":{
+  		"info":"G",
+        "left":{
+        	"info":"H",
+            "right":{
+            	"info":"I"
+            }
+        }
+  }
+}
