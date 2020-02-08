@@ -15,5 +15,11 @@ public class Project {
         "binaryTree0.json"
     };
     
+    public static String[] treeFiles = new String[]{
+        "treePPT.json",
+        "treePPT2.json",
+        "treePPT3.json"
+    };
+    
     
 }

@@ -12,8 +12,8 @@ package datastructure.list;
 public class LnkQueue<T> implements Queue<T>{
     
     private int size = 0;
-    private LinkedList.Node<T> front;
-    private LinkedList.Node<T> rear;
+    protected LinkedList.Node<T> front;
+    protected LinkedList.Node<T> rear;
 
     @Override
     public void clear() {

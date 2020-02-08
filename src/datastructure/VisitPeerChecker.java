@@ -18,6 +18,4 @@ public class VisitPeerChecker extends Visitor{
     public boolean check(){
         return check(other);
     }
-    
-    
 }

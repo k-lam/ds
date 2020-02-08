@@ -22,13 +22,25 @@ public class Visitor {
         return ((Visitor)obj).sb.toString().equals(sb.toString());
     }
     
-    public boolean check(Visitor other){
+    public boolean check(Visitor other, boolean print){
         if(other.equals(this)){
-            System.out.println("equal!!! " + other.sb.toString());
+            if(print){
+                System.out.println("equal!!! " + other.sb.toString());
+            }
             return true;
         }else{
-            System.err.println("not equal!!! ");
+            if(print){
+                System.err.println("not equal!!! ");
+            }
             return false;
         }
     }
+    public boolean check(Visitor other){
+        return check(other, true);
+    }
+    
+    public void print(){
+        System.out.println(sb.toString());
+    }
+    
 }

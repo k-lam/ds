@@ -1,0 +1,20 @@
+{
+ 	"root":{
+     	"info":"D",
+        "left":{
+        	"info":"E",
+            "left":{ 	
+            	"info":"A",
+                "right":{
+                	"info":"B"
+                }
+            },
+            "right":{
+            	"info":"F",
+             	"right":{
+                	"info":"G"
+                }     
+            }
+        }
+     }
+ }

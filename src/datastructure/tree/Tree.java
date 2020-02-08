@@ -5,10 +5,15 @@
  */
 package datastructure.tree;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-import datastructure.VisitPeerChecker;
-import datastructure.Visitor;
-
+import com.google.gson.reflect.TypeToken;
+import datastructure.LnkChecker;
+import datastructure.Project;
+import datastructure.Tools;
+import datastructure.list.LnkStack;
+import datastructure.list.Stack;
+import datastructure.list.*;
 /**
  *
  * @author linqiye
@@ -42,7 +47,7 @@ public class Tree<T> {
             }
         }
         
-        public void setSibling(TreeNode<T> pointer){ this.rightSibling = rightSibling; }
+        public void setSibling(TreeNode<T> pointer){ this.rightSibling = pointer; }
         /**
          * 以第一个左孩子身份插入节点
          * @param node 
@@ -75,35 +80,221 @@ public class Tree<T> {
     
     public boolean isEmpty(){ return root == null; }
     
-    public TreeNode<T> parent(TreeNode<T> current){ return null;}
-    
-    public void deleteSubTree(TreeNode subroot){}
-    
-    public void rootFirstTraverse(TreeNode node){
-    
+    public TreeNode<T> parent(TreeNode<T> current){ 
+        TreeNode<T> tmp = root;
+        Queue<TreeNode<T>> queue = new LnkQueue<>();
+        while(tmp != null){
+            if(current == tmp) return null;
+            queue.enQueue(tmp);
+            tmp = tmp.rightSibling;
+        }
+        TreeNode<T> parent = null;
+        while (!queue.isEmpty()) {            
+            tmp = queue.deQueue();
+            parent = tmp;
+            tmp = tmp.leftMostChild;
+            while(tmp != null){
+                if(tmp == current){
+                    return parent;
+                }
+                queue.enQueue(tmp);
+                tmp = tmp.rightSibling;
+            }
+        }
+        return null;
     }
     
-    public void rootLastTraverse(TreeNode node){}
+    public void deleteSubTree(TreeNode subroot){
+        // 啊啊啊啊啊啊啊.....不想写代码啊
+    }
     
-    public void layerTraverse(TreeNode root){}
+    public void rootFirstTraverse(){ rootFirstTraverse(root); }
+    
+    public void rootFirstTraverse(TreeNode node){
+        if(node == null) return;
+        visit(node);
+        rootFirstTraverse(node.leftMostChild);
+        rootFirstTraverse(node.rightSibling);
+    }
+    
+    public void rootFirstTravsrsePPT(){
+        rootFirstTravsrsePPT(root);
+    }
+    
+    public void rootFirstTravsrsePPT(TreeNode<T> root){
+        while(root != null){
+            visit(root);
+            rootFirstTravsrsePPT(root.leftMostChild);
+            root = root.rightSibling;
+        }
+    }
+    
+    public void rootFirstTravsrseNoR(){
+        depthTraverse(true);
+    }
+    
+    private void depthTraverse(boolean first){
+        TreeNode<T> pointer = root;
+        Stack<TreeNode<T>> stack = new LnkStack<>();
+        while(pointer != null || !stack.isEmpty()){
+            if(pointer != null){
+                if(first){ visit(pointer); }
+                stack.push(pointer);
+                pointer = pointer.leftMostChild;
+            }else{
+                pointer = stack.top();
+                stack.pop();
+                if(!first){ visit(pointer); }
+                pointer = pointer.rightSibling;
+            }
+        }
+    }
+    
+    public void rootLastTraverse(TreeNode node){
+        if(node == null) return;
+        rootLastTraverse(node.leftMostChild);
+        visit(node);
+        rootLastTraverse(node.rightSibling);
+    }
+    
+    public void rootLastTraverse(){
+        rootLastTraverse(root);
+    }
+    
+    public void rootLastTraversePPT(TreeNode root){
+        while(root != null){
+            rootLastTraverse(root.leftMostChild);
+            visit(root);
+            root = root.rightSibling;
+        }
+    }
+    
+    public void rootLastTraversePPT(){
+        rootLastTraverse(root);
+    }
+    
+    public void rootLastTraverseNoR(){
+        depthTraverse(false);
+    }
+    
+    public void layerTraverse(TreeNode<T> root){
+        // 注意与二叉树层次遍历不同
+        Queue<TreeNode<T>> queue = new LnkQueue<>();
+        while(root != null){
+            queue.enQueue(root);
+            root = root.rightSibling;
+        }
+        while(!queue.isEmpty()){
+            root = queue.deQueue();
+            visit(root);
+            root = root.leftMostChild;
+            while(root != null){
+                queue.enQueue(root);
+                root = root.rightSibling;
+            }
+        }
+    }
+    
+    public void layerTraverse(){ layerTraverse(root);}
     
     public void destroyNodes(TreeNode<T> root){}
     
-    public void mirrorTree(){}
-    
-    private Visitor checker;
-    public void setChecker(VisitPeerChecker checker){ this.checker = checker; }
-    public void checkerChange(){
-        if(checker != null) checker = ((VisitPeerChecker)checker).peer();
+    public TreeNode<T> mirrorTree(){
+        root = mirrorTree(root);
+        return root;
     }
+    
+    public TreeNode<T> mirrorTree(TreeNode<T> root){
+        if(root == null) return null;
+        TreeNode<T> next = root.rightSibling;
+        root.rightSibling = null;
+        while(root != null){
+            root.leftMostChild = mirrorTree(root.leftMostChild);
+            if(next != null){
+                TreeNode<T> tmpNext = next;
+                next = next.rightSibling;
+                tmpNext.rightSibling = root;
+                root = tmpNext;
+            }else{
+                break;
+            }
+        }
+        return root;
+    }
+    
+    public TreeNode<T> mirrorTree2(TreeNode<T> root){ 
+        if(root == null) return null;
+        Stack<TreeNode<T>> stack = new LnkStack<>();
+        stack.push(null); // 监视梢
+        while(root != null){
+            stack.push(root);
+            root = root.rightSibling;
+        }
+        root = stack.top();
+        stack.pop();
+        TreeNode<T> pointer = root;
+//        root.leftMostChild = mirrorTree2(root.leftMostChild);
+//        while(pointer != null){
+//            pointer.leftMostChild = mirrorTree2(pointer.leftMostChild);
+//            pointer.rightSibling = stack.top();
+//            pointer = stack.top();
+//            stack.pop();
+//        }
+        while(!stack.isEmpty()){
+            pointer.leftMostChild = mirrorTree2(pointer.leftMostChild);
+            pointer.rightSibling = stack.top();
+            pointer = stack.top();
+            stack.pop();
+        }
+//        pointer.rightSibling = null;
+        
+        return root;
+    }
+    
+    private LnkChecker checker;
+    public void setChecker(LnkChecker checker){ this.checker = checker; }
+
     public void visit(TreeNode<T> node){
-        if(checker != null){ checker.visit(node.value); }
-        else{
-            System.out.println(node.value);
+        if(checker != null){ checker.visit(node == null ? null : node.value); }
+        else {
+            System.out.println(node == null ? null : node.value);
         }
     }
     
     public static void main(String[] args) {
+        String json = Tools.readProjectAssetFile(Project.treeFiles[2]);
+        Gson gson = new Gson();
+        Object obj = gson.fromJson(json, new TypeToken<Tree<String>>() {
+        }.getType());
+        Tree<String> tree = (Tree<String>) obj;
         
+//        LnkChecker checker = new LnkChecker();
+//        
+//        tree.setChecker(checker);
+//        tree.rootFirstTraverse();
+//        
+//        checker.otherChecker();
+//        tree.rootFirstTravsrsePPT();
+//        
+//        checker.otherChecker();
+//        tree.rootFirstTravsrseNoR();
+//        
+//        checker.check();
+//        
+//        LnkChecker lastChecker = new LnkChecker();
+//        tree.setChecker(lastChecker);
+//        tree.rootLastTraverse();
+//        
+//        lastChecker.otherChecker();
+//        tree.rootLastTraversePPT();
+//        
+//        lastChecker.otherChecker();
+//        tree.rootLastTraverseNoR();
+//        
+//        lastChecker.check();
+//        
+//        tree.layerTraverse();
+        tree.mirrorTree2(tree.root);
+        tree.rootLastTraverse();
     }
 }
