@@ -33,6 +33,10 @@ public abstract class Heap<T> {
         }
     }
     
+    public boolean isEmpty(){
+        return currentSize == 0;
+    }
+    
     public boolean isLeaf(int pos){
         return pos > (currentSize / 2 - 1); 
     }

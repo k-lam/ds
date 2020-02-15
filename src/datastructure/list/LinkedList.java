@@ -72,7 +72,7 @@ public class LinkedList<T> implements Cloneable {
         return node;
     }
 
-    public boolean insert(int p, int value) {
+    public boolean insert(int p, T value) {
         Node pre = setPos(p - 1);// 获取前一个节点
         Node node = new Node(value);
         if (pre == null) {
@@ -119,6 +119,14 @@ public class LinkedList<T> implements Cloneable {
             ls.append((T) this.setPos(i).data);
         }
         return ls;
+    }
+    
+    public void printAll(){
+        if(isEmpty()) return;
+        for(Node pointer = head.next; pointer != null; pointer = pointer.next){
+            System.out.print(pointer.data + ", ");
+        }
+        System.out.println("");
     }
 
 }

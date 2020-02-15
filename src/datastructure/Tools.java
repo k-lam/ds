@@ -17,6 +17,10 @@ import org.omg.CORBA.Environment;
  * @author linqiye
  */
 public class Tools {
+    
+    // 本项目中 int 允许的最大值, 作为无穷大,因为用Integer.MAX_VALUE, Integer.MAX_VALUE + 1就溢出了
+    // 2 * INFINTY < Integer.MAX_VALUE, 所以  用来比较的时候,还是用 Integer.MAX_VALUE
+    public final static int INFINTY = Integer.MAX_VALUE / 2;
 
     public static void main(String[] args) {
         long t0 = System.currentTimeMillis();

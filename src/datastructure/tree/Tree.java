@@ -105,7 +105,26 @@ public class Tree<T> {
     }
     
     public void deleteSubTree(TreeNode subroot){
-        // 啊啊啊啊啊啊啊.....不想写代码啊
+        if(root == subroot){ 
+                root = root.rightSibling;
+        }else{
+            TreeNode parent = parent(subroot);
+            if(parent == null){// parent = null 有三种可能,1. root 2, root的兄弟 3, subroot不属于森林
+                TreeNode pointer = root;
+                while(pointer != null && pointer.rightSibling != subroot){
+                    pointer = pointer.rightSibling;
+                }
+                pointer.rightSibling = subroot.rightSibling;
+            }else if(parent.leftMostChild == subroot){
+                parent.leftMostChild = subroot.rightSibling;
+            }else{
+                TreeNode pointer = parent.leftMostChild;
+                while(pointer.rightSibling != subroot) pointer = pointer.rightSibling;
+                pointer.rightSibling = subroot.rightSibling;
+            }
+        }
+        subroot.rightSibling = null;
+        destroyNodes(subroot);
     }
     
     public void rootFirstTraverse(){ rootFirstTraverse(root); }
@@ -204,12 +223,13 @@ public class Tree<T> {
         return root;
     }
     
-    public TreeNode<T> mirrorTree(TreeNode<T> root){
+    public TreeNode<T> mirrorTree2(TreeNode<T> root){
+        // 不用stack实现,考试不要写这个,很他妈容易错,用简单的方法mirrorTree
         if(root == null) return null;
         TreeNode<T> next = root.rightSibling;
         root.rightSibling = null;
         while(root != null){
-            root.leftMostChild = mirrorTree(root.leftMostChild);
+            root.leftMostChild = mirrorTree2(root.leftMostChild);
             if(next != null){
                 TreeNode<T> tmpNext = next;
                 next = next.rightSibling;
@@ -222,7 +242,7 @@ public class Tree<T> {
         return root;
     }
     
-    public TreeNode<T> mirrorTree2(TreeNode<T> root){ 
+    public TreeNode<T> mirrorTree(TreeNode<T> root){ 
         if(root == null) return null;
         Stack<TreeNode<T>> stack = new LnkStack<>();
         stack.push(null); // 监视梢
@@ -233,21 +253,13 @@ public class Tree<T> {
         root = stack.top();
         stack.pop();
         TreeNode<T> pointer = root;
-//        root.leftMostChild = mirrorTree2(root.leftMostChild);
-//        while(pointer != null){
-//            pointer.leftMostChild = mirrorTree2(pointer.leftMostChild);
-//            pointer.rightSibling = stack.top();
-//            pointer = stack.top();
-//            stack.pop();
-//        }
+//        while(pointer != null){//两个一样的
         while(!stack.isEmpty()){
-            pointer.leftMostChild = mirrorTree2(pointer.leftMostChild);
+            pointer.leftMostChild = mirrorTree(pointer.leftMostChild);// 容易漏掉赋值!!!
             pointer.rightSibling = stack.top();
             pointer = stack.top();
             stack.pop();
-        }
-//        pointer.rightSibling = null;
-        
+        }        
         return root;
     }
     
@@ -294,7 +306,7 @@ public class Tree<T> {
 //        lastChecker.check();
 //        
 //        tree.layerTraverse();
-        tree.mirrorTree2(tree.root);
+        tree.mirrorTree(tree.root);
         tree.rootLastTraverse();
     }
 }
