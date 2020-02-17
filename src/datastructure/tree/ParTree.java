@@ -12,7 +12,7 @@ package datastructure.tree;
 public class ParTree<T> {
     public static class ParTreeNode<T>{
         T value;
-        ParTreeNode<T> parent;
+        ParTreeNode<T> parent;//parent=null 表示自己就是这个类的代表!
         int count = 0;
         
         ParTreeNode<T> getParent(){ return parent; }
@@ -27,7 +27,21 @@ public class ParTree<T> {
     // 所以用数组存储(存储密度更高)
     protected ParTreeNode<T>[] array;
     
-    public ParTree(ParTreeNode<T>[] array){ this.array = array; }
+//    public ParTree(ParTreeNode<T>[] array){ this.array = array; }
+    
+    public ParTree(int count){
+//        array = (ParTreeNode<T>[]) new Object[count];
+        array = new ParTreeNode[count];
+        for(int i = 0; i != count; i++){
+            array[i] = new ParTreeNode<>();
+//            array[i].parent = array[i];这是错的!parent=null 表示自己就是这个类的代表!
+            array[i].count = 1;
+        }
+    }
+    
+//    public ParTreeNode<T> find(int i){
+//        return find(array[i]);
+//    }
     
     public ParTreeNode<T> find(ParTreeNode<T> node){ 
         ParTreeNode<T> pointer = node;
@@ -54,7 +68,9 @@ public class ParTree<T> {
         }
     }
     
-    public boolean different(int i, int j){ return find(array[i]) == find(array[j]);}
+    public boolean different(int i, int j){ 
+        return findPC(array[i]) == findPC(array[j]);
+    }
     
     public ParTreeNode<T> findPC(ParTreeNode<T> node){ 
         if(node.parent == null){

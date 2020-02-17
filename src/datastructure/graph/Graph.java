@@ -32,6 +32,11 @@ public class Graph {
             if(other.from == from && other.to == to && other.weight == weight) return true;
             return false;
         }
+        
+        @Override
+        public String toString(){
+            return String.format("from: %3d to: %3d w:%4d %s" , from, to, weight > 9999 ? 9999 : weight, info);
+        }
     }
     
     public static class Vertex{

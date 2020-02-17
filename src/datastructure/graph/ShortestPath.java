@@ -148,7 +148,7 @@ public class ShortestPath {
         }
         return dists;
     }
-    
+    // 打印Dists信息
     static void printDists(Dist[] ds, Graph graph){
 //        for(Dist d : ds){
 //            System.out.println(d.toString());
@@ -165,7 +165,7 @@ public class ShortestPath {
             System.out.println(sb);
         }
     }
-    
+    // 恢复最短路径
     public static LinkedList<String> pre2Path(Dist[] dists, Graph g,  int from, int to){
         LinkedList<String> ls = new LinkedList<>();
         int pre = to;
