@@ -223,24 +223,25 @@ public class Tree<T> {
         return root;
     }
     
-    public TreeNode<T> mirrorTree2(TreeNode<T> root){
-        // 不用stack实现,考试不要写这个,很他妈容易错,用简单的方法mirrorTree
-        if(root == null) return null;
-        TreeNode<T> next = root.rightSibling;
-        root.rightSibling = null;
-        while(root != null){
-            root.leftMostChild = mirrorTree2(root.leftMostChild);
-            if(next != null){
-                TreeNode<T> tmpNext = next;
-                next = next.rightSibling;
-                tmpNext.rightSibling = root;
-                root = tmpNext;
-            }else{
-                break;
-            }
-        }
-        return root;
-    }
+//    public TreeNode<T> mirrorTree2(TreeNode<T> root){
+//        // 不用stack实现,考试不要写这个,很他妈容易错,用简单的方法mirrorTree,
+//        // 这个就是习题课的写法,但是没写好,见mirrorTreeDFS
+//        if(root == null) return null;
+//        TreeNode<T> next = root.rightSibling;
+//        root.rightSibling = null;
+//        while(root != null){
+//            root.leftMostChild = mirrorTree2(root.leftMostChild);
+//            if(next != null){
+//                TreeNode<T> tmpNext = next;
+//                next = next.rightSibling;
+//                tmpNext.rightSibling = root;
+//                root = tmpNext;
+//            }else{
+//                break;
+//            }
+//        }
+//        return root;
+//    }
     
     public TreeNode<T> mirrorTree(TreeNode<T> root){ 
         if(root == null) return null;
@@ -261,6 +262,26 @@ public class Tree<T> {
             stack.pop();
         }        
         return root;
+    }
+    
+    public TreeNode<T> mirrorTreeDFS(){
+        root = mirrorTreeDFS(root);
+        return root;
+    } 
+    
+    public TreeNode<T> mirrorTreeDFS(TreeNode<T> root){
+        // 习题课的写法,最好
+        if(root == null) return null;
+        TreeNode<T> left = null;
+        TreeNode<T> pointer = root;
+        while(pointer != null){
+            pointer.leftMostChild = mirrorTreeDFS(pointer.leftMostChild);
+            TreeNode<T> tmp = pointer;
+            pointer = pointer.rightSibling;
+            tmp.rightSibling = left;
+            left = tmp;
+        }
+        return left;
     }
     
     private LnkChecker checker;
@@ -306,7 +327,7 @@ public class Tree<T> {
 //        lastChecker.check();
 //        
 //        tree.layerTraverse();
-        tree.mirrorTree(tree.root);
+        tree.mirrorTreeDFS();
         tree.rootLastTraverse();
     }
 }

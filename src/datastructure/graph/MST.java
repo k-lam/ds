@@ -101,7 +101,7 @@ public class MST {
                 return false;
             }
             Edge edge = heap.removeTop();
-            if(!parTree.different(edge.from, edge.to)){
+            if(parTree.different(edge.from, edge.to)){
                 mst[i++] = edge;
                 parTree.union(edge.from, edge.to);
                 equNum--;

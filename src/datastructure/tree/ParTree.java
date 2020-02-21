@@ -12,7 +12,7 @@ package datastructure.tree;
 public class ParTree<T> {
     public static class ParTreeNode<T>{
         T value;
-        ParTreeNode<T> parent;//parent=null 表示自己就是这个类的代表!
+        public ParTreeNode<T> parent;//parent=null 表示自己就是这个类的代表!
         int count = 0;
         
         ParTreeNode<T> getParent(){ return parent; }
@@ -21,13 +21,14 @@ public class ParTree<T> {
         
         void setCount(int count){ this.count = count; }
         
-        int getCount(){ return count;}
+        public int getCount(){ return count;}
     }
     // 实际上完全可以用链表来存储, 但考虑到并查集用于静态的情况,
     // 所以用数组存储(存储密度更高)
-    protected ParTreeNode<T>[] array;
+    public ParTreeNode<T>[] array;//不应该public的, 为了有些算法方便
     
 //    public ParTree(ParTreeNode<T>[] array){ this.array = array; }
+    
     
     public ParTree(int count){
 //        array = (ParTreeNode<T>[]) new Object[count];
@@ -69,7 +70,7 @@ public class ParTree<T> {
     }
     
     public boolean different(int i, int j){ 
-        return findPC(array[i]) == findPC(array[j]);
+        return findPC(array[i]) != findPC(array[j]);
     }
     
     public ParTreeNode<T> findPC(ParTreeNode<T> node){ 

@@ -5,6 +5,7 @@
  */
 package datastructure.graph;
 
+import com.sun.org.apache.bcel.internal.generic.PUSH;
 import datastructure.list.*;
 import static datastructure.Tools.INFINTY;
 /**
@@ -56,6 +57,14 @@ public class Graph {
         VISITED,
         UNVISITED
     }
+    /**
+     * 深搜, 后访问 判断有没有环用的
+     */
+    public static enum MARK_CIRCLE {
+        VISITED,
+        UNVISITED,
+        PUSH,// 已经对子图递推中, 自己还没有被访问
+    }
     
     public Vertex[] vertices;
     public int edgeNum;// 图中边的条数, 呃呃呃, 用来干嘛的?
@@ -63,6 +72,27 @@ public class Graph {
     
     public boolean directed = false;
     
+    public Graph(){}
+    
+    public Graph(Vertex[] vertexs,boolean directed){
+        this.directed = directed;
+        this.vertices = vertexs;
+        edgeNum = 0;
+        for(Vertex v : vertexs){
+            for(Edge edge = v.firstEdge; edge != null; edge = edge.next){ 
+                edgeNum++;
+            }
+        }
+        if(!directed){ edgeNum /= 2; }
+    }
+    
+//    public Graph(int vCount, boolean directed){
+//        this.directed = directed;
+//        this.vertices = new Vertex[vCount];
+//        for(int i = 0; i != vCount; i++){
+//            this.vertices[i] = new Vertex();
+//        }
+//    }
     
     /**
      * 
@@ -207,6 +237,12 @@ public class Graph {
         return marks;
     }
     
-    
+    public MARK_CIRCLE[] createMarkCirles(){
+        MARK_CIRCLE[] marks = new MARK_CIRCLE[vertices.length];
+        for(int i = 0; i != marks.length; i++){
+            marks[i] = MARK_CIRCLE.UNVISITED;
+        }
+        return marks;
+    }
     
 }

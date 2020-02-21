@@ -21,6 +21,8 @@ public class Traverse {
     static void traverse(Graph g){
         MARK[] marks = g.createMarks();
         for(int v = 0; v != g.verticesNum(); v++){
+            // 一次调用, 一定能把一个连通子图(分量) 都访问完,一次不能访问完,就是不连通,
+            // 见PPT 第七章 习题课 POJ 1164问题
             if(marks[v] == MARK.UNVISITED){
 //                dfs(g, v, marks);
 //                bfs(g,v, marks);
@@ -113,6 +115,42 @@ public class Traverse {
         }
         stack.push(v);
     }
+    // return true:有环, false 无环
+    static boolean doTopSortDFS_CIRCLE(Graph g, int s, MARK_CIRCLE[] marks, Stack<Integer> stack){
+        if(marks[s] == MARK_CIRCLE.PUSH) return true;
+        marks[s] = MARK_CIRCLE.PUSH;
+        
+        for(Edge edge = g.firstEdge(s); g.isEdge(edge); edge = g.nextEdge(edge)){
+            if(marks[g.toVertex(edge)] != MARK_CIRCLE.UNVISITED && 
+                    doTopSortDFS_CIRCLE(g, s, marks, stack)){
+                return true;
+            }
+        }
+        
+        marks[s] = MARK_CIRCLE.VISITED;
+        stack.push(s);
+        return false;
+    }
+    
+    // 可判断有无环的
+    static void topSortDFS_CIRCLE(Graph g){
+        MARK_CIRCLE[] marks = g.createMarkCirles();
+        Stack<Integer> stack = new ArrStack<>(g.verticesNum());
+        for(int v = 0; v != g.verticesNum(); v++){
+            if(marks[v] == MARK_CIRCLE.UNVISITED){
+                if(doTopSortDFS_CIRCLE(g, v, marks, stack)){
+                    System.err.println("有环");
+                    stack = null;
+                    return;
+                }
+            }
+        }
+        while (!stack.isEmpty()) {            
+            visit(g, stack.top());
+            stack.pop();
+        }
+    }
+    
     
     static void topSortByQueue(Graph g){
         int[] inDegrees = new int[g.verticesNum()];
@@ -127,7 +165,7 @@ public class Traverse {
                 queue.enQueue(v);
             }
         }
-        MARK[] marks = g.createMarks();
+        MARK[] marks = g.createMarks();// 其实多余, 只要inDegrees != 0 就可以判断未访问
         while(!queue.isEmpty()){
             int v = queue.deQueue();
             visit(g, v);
@@ -161,7 +199,8 @@ public class Traverse {
     }
     
     static boolean checkCircle(Graph g){
-        int[] marks = new int[g.verticesNum()];
+//        int[] marks = new int[g.verticesNum()];
+        MARK_CIRCLE[] marks = g.createMarkCirles();
         for(int v = 0; v != g.verticesNum(); v++){
             if(doCheckCircle(g, v, marks)){
                 return true;
@@ -174,19 +213,19 @@ public class Traverse {
      * 对有向图的, 无向图由于一条边出现两次,所以这方法一定会判断有环
      * @param g
      * @param v
-     * @param marks -1 正在访问后继, 0: 未访问, 1:后继访问完成
+     * @param marks 
      * @return true: 有环 false: 无环
      */
-    static boolean doCheckCircle(Graph g, int v, int[] marks){
-        if(marks[v] == -1){ return true; }
-        marks[v] = -1;
+    static boolean doCheckCircle(Graph g, int v, MARK_CIRCLE[] marks){
+        if(marks[v] == MARK_CIRCLE.PUSH){ return true; }
+        marks[v] = MARK_CIRCLE.PUSH;
 
         for(Edge edge = g.firstEdge(v); g.isEdge(edge); edge = g.nextEdge(edge)){
-            if(marks[edge.to] != 1 && doCheckCircle(g, edge.to, marks)){
+            if(marks[edge.to] != MARK_CIRCLE.VISITED && doCheckCircle(g, edge.to, marks)){
                 return true;
             }
         }
-        marks[v] = 1;
+        marks[v] = MARK_CIRCLE.VISITED;
         return false;
     }
     

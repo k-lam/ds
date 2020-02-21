@@ -5,6 +5,7 @@
  */
 package datastructure.list;
 
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,7 +15,25 @@ import java.util.logging.Logger;
  *
  * @author linqiye
  */
-public class LinkedList<T> implements Cloneable {
+public class LinkedList<T> implements Cloneable, Iterable<T> {
+
+    @Override
+    public Iterator<T> iterator() {
+        Iterator<T> iterator = new Iterator<T>() {
+            Node<T> pointer = head;
+            @Override
+            public boolean hasNext() {
+                return pointer.next != null;
+            }
+
+            @Override
+            public T next() {
+                pointer = pointer.next;
+                return pointer.data;
+            }
+        };
+        return iterator;
+    }
 
     public static class Node<T> {
 
