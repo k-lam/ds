@@ -6,6 +6,7 @@
 package datastructure;
 
 import datastructure.list.LinkedList;
+import datastructure.sort.IntRecord;
 import java.util.Objects;
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
@@ -60,6 +61,13 @@ public class Tools {
     public static void printArray(int[] a) {
         for (int i : a) {
             System.out.print(i + ", ");
+        }
+        System.out.println();
+    }
+    
+    public static void printArray(IntRecord[] array){
+        for (IntRecord i : array) {
+            System.out.print(i.data + ", ");
         }
         System.out.println();
     }

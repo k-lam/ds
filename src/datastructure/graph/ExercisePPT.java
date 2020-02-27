@@ -244,6 +244,9 @@ public class ExercisePPT {
     }
     
     static class POJ1376{
+        // 用Dijkstra回超级麻烦,不建议, 用Dijkstra的问题是,用很多的存储空间
+        // 因为每个点还有四个状态,实际上是要分化出四个点, 但由于权值都一样,用层次遍历
+        // 时间和空间都比Dijkstra优
         int[][] inputs = new int[][]{
                 new int[]{ 0,0,0,0,0,0,1,0,0,0}, 
                 new int[]{ 0,0,0,0,0,0,0,0,1,0},
@@ -258,44 +261,7 @@ public class ExercisePPT {
         int[] startpoint = new int[]{7, 2};
         int startDirect = 3;//左上右下
         int[] endpoint = new int[]{2, 7};
-        
-//        class MiniHeap extends Heap<Dist>{
-//            
-//            public MiniHeap(int size){
-//                super(size);
-//            }
-//            public boolean lessThen(Dist a, Dist b){
-//                return a.length < b.length;
-//            }
-//        }
-        
-//        class Dist{
-//            int preR;
-//            int preC;
-//            int preD;//1 2 -1 -2,左上右下
-//            int length = INFINTY;
-//            int myR, myC, myD;
-//            
-////            Dist[] connecDists(){
-////                
-////            }
-//           
-//        }
-        
-//        int weigth(Dist d1, Dist d2){
-//            if(d1.myC == d2.myC && d1.myR == d2.myR){
-//                if(d1.myD == d2.myD){
-//                    return 0;
-//                }else if(d1.myD + d1.myD == 0){
-//                    return 2;
-//                }
-//                return 1;
-//            }
-//            if(d1.myD == d2.myD && Math.abs(d1.myC - d2.myC) == 1 || Math.abs(d1.myR - d2.myR) == 1){
-//                return 1;
-//            }
-//            return INFINTY;
-//        }
+       
         
         int[] set(int v){
             int[] result = new int[4];
@@ -325,7 +291,7 @@ public class ExercisePPT {
                 }
             }
             
-            int[][][] distance = new int[boards.length][][];
+            int[][][] distance = new int[boards.length][][];// -1 未访问, INFINTY 不可达, 其他 距离
             for(int i = 0; i != boards.length; i++){
                 distance[i] = new int[boards[0].length][];
                 for(int j = 0; j != distance[i].length; j++){
@@ -345,7 +311,7 @@ public class ExercisePPT {
             while(!queue.isEmpty()){
                 point = queue.deQueue();
                 if(point[0] == endpoint[0] && point[1] == endpoint[1]){
-                    System.err.println(".........");
+//                    System.err.println(".........");
                     break;
                 }
                 int r = point[0];
@@ -356,7 +322,7 @@ public class ExercisePPT {
                     if(distance[r][c][nextD] == -1){
                         distance[r][c][nextD] = distance[r][c][d] + 1;
                         queue.enQueue(new int[]{r, c, nextD});
-//                        if(delta == 2){
+//                        if(delta == 2){// 不可以一次转180度
 //                            distance[r][c][(d + delta) % 4]+= 2;
 //                        }else{
 //                            distance[r][c][(d + delta) % 4]+= 1;

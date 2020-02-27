@@ -12,7 +12,7 @@ import datastructure.ParamBox;
  */
 public abstract class Heap<T> {
     protected T[] heapArray;
-    int currentSize;
+    protected int currentSize;
     
     public Heap(){}
     
@@ -27,7 +27,7 @@ public abstract class Heap<T> {
         buildHeap();
     }
     
-    void buildHeap(){
+    public void buildHeap(){
         for(int i = currentSize / 2 - 1; i >= 0 ; i--){
             siftDown(i);
         }
@@ -58,7 +58,7 @@ public abstract class Heap<T> {
         if(pos >= currentSize || pos < 0){ return false; }
         T tmp = heapArray[pos];
         heapArray[pos] = heapArray[currentSize - 1];
-        heapArray[currentSize - 1] = tmp;
+        heapArray[currentSize - 1] = tmp;// 把被删元素放到最后一位是好习惯,这样就直接兼容堆排序
         paramBox.pointer = heapArray[--currentSize];
         int parent = parent(pos);
         if(parent >= 0 && lessThen(heapArray[pos], heapArray[parent])){
@@ -146,12 +146,16 @@ public abstract class Heap<T> {
             return a > b;
         }
         
+        public void removeMax(){
+            this.removeTop();
+        }
+        
     }
     
-    public static void main(String[] args) {
-        int[] a = new int[10];
-        int i = 0;
-        a[i++] = 10;
-        System.out.println(a[0]+ "," + a[1]);
-    }
+//    public static void main(String[] args) {
+//        int[] a = new int[10];
+//        int i = 0;
+//        a[i++] = 10;
+//        System.out.println(a[0]+ "," + a[1]);
+//    }
 }

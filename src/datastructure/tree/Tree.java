@@ -21,6 +21,7 @@ import datastructure.list.*;
 public class Tree<T> {
     
     public static class TreeNode<T>{
+        // gson-2.8.6.jar
         @SerializedName("info")
         T value;
         @SerializedName("left")
