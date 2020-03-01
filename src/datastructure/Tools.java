@@ -177,6 +177,15 @@ public class Tools {
         return readFile(path);
     }
     
-    
+    public static void clearDir(String dir){
+//        new File(dir).delete();
+//        new File(dir).mkdir();
+        File[] fs = new File(dir).listFiles();
+        for(File f : fs){
+            if(!f.delete()){
+                System.err.println("delete " + f.getName() + " failed!!!");
+            }
+        }
+    }
 
 }

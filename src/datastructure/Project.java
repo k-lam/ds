@@ -21,5 +21,8 @@ public class Project {
         "treePPT3.json"
     };
     
+    public static String  tmpFileDir = "/Users/linqiye/NetBeansProjects/DataStructure/data/tmp";
+    
+    public static String OUTERSORT_INPUT_FILE = projectAssetDir + "outer_sort_input";
     
 }

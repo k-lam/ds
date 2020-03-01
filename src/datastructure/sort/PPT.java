@@ -430,7 +430,7 @@ public class PPT {
         addrSort(array, indics);
     }
     
-    // 索引版快速排序
+    // 索引版快速排序  正确的
     static void quickSortIndex(IntRecord[] array){
         int[] indics = new int[array.length];
         for(int i = 0; i != indics.length; i++){
@@ -508,10 +508,9 @@ public class PPT {
         }
     }
 
-    // 
+    // 索引版 堆排序 正确的
     static class HeapSortWithIndex extends Heap<Integer>{
         
-//        Integer[] indics;
         IntRecord[] records;
 
         public HeapSortWithIndex(IntRecord[] records) {
@@ -543,7 +542,7 @@ public class PPT {
     
     }
     
-    
+    //===============================测试数据======================================
     static int[] addrsortTest = new int[]{0, 1, 2, 3 ,4}; //ppt 8.7 p4 数据
     static int[] addrSortP1 = new int[]{29, 25, 34, 64, 34, 12, 32, 45};// ppt 8.7 p10 数据
     static int[] reverse = new int[]{7, 6, 5, 4, 3, 2, 1};
