@@ -14,8 +14,9 @@ import static datastructure.Tools.clearDir;
  * @author linqiye
  */
 public class PPT {
-    static int replaceRunsSize = 1000;
-    static int loserTreeRunsMergeCount = 8;
+    // 可以通过修改以下两个数据来优化效率,就是PPT里面所说的  log_k m
+    static int replaceRunsSize = 2048;
+    static int loserTreeRunsMergeCount = 128;
     
     static String[] runsDir = new String[]{
         Project.tmpFileDir + "/outer_sort/runs",
@@ -23,7 +24,7 @@ public class PPT {
     };
         
     public static void main(String[] args) {
-        
+        long t0 = System.currentTimeMillis();
         int[] cc = new int[1];
         
 //        Checker.check("/Users/linqiye/NetBeansProjects/DataStructure/data/tmp/outer_sort/runs1/run_", 50, cc);
@@ -79,6 +80,8 @@ public class PPT {
         }else{
             System.out.println("failed!!!!  sort count: " + count[0]);
         }
+        
+        System.out.println("total time: " + (System.currentTimeMillis() - t0));
         
     }
     

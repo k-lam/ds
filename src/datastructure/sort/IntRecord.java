@@ -10,15 +10,30 @@ package datastructure.sort;
  * @author linqiye
  */
 public class IntRecord extends Record<Integer>{
+    
+    public IntRecord(){}
+    
+    public IntRecord(int key){
+        this();
+        this.key = key;
+    }
 
     @Override
     public boolean lessThan(Record<Integer> other) {
         return this.key < other.key;
     }
     
+    public boolean lessThan(int key){
+        return this.key < key;
+    }
+    
     @Override
     public boolean equal(Record<Integer> other) {
         return key.equals(other.key);
+    }
+    
+    public boolean equal(int other) {
+        return key.equals(other);
     }
 
     public static IntRecord[] createArray(int[] arrays){

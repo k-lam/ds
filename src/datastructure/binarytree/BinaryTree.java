@@ -24,6 +24,7 @@ public class BinaryTree<T> {
         protected T info;
         private BinaryTreeNode<T> left;
         private BinaryTreeNode<T> right;
+        public BinaryTreeNode<T> parent;
 
         public BinaryTreeNode() {
         }
@@ -57,10 +58,12 @@ public class BinaryTree<T> {
 
         public void setLeftChild(BinaryTreeNode<T> node) {
             this.left = node;
+            node.parent = this;
         }
 
         public void setRightChild(BinaryTreeNode<T> node) {
             this.right = node;
+            node.parent = this;
         }
     }
 
@@ -93,7 +96,7 @@ public class BinaryTree<T> {
         return parent(root, current);
     }
     
-    public BinaryTreeNode<T> parent(BinaryTreeNode<T> root, BinaryTreeNode<T> current){
+    public BinaryTreeNode<T> parent(BinaryTreeNode<T> root, BinaryTreeNode<T> current){// 假设没有parent指针
         if(root == null) return null;
         if(current == root.left || current == root.right) return root;
         BinaryTreeNode<T> node = parent(root.left, current);
@@ -101,7 +104,7 @@ public class BinaryTree<T> {
         return parent(root.right, current);
     }
     
-    public BinaryTreeNode<T> parentNoRecusion(BinaryTreeNode<T> root, BinaryTreeNode<T> current){
+    public BinaryTreeNode<T> parentNoRecusion(BinaryTreeNode<T> root, BinaryTreeNode<T> current){// 假设没有parent指针
         // 中序框架,PPT用前序框架
         BinaryTreeNode<T> pointer = root;
         Stack<BinaryTreeNode<T>> stack = new LnkStack<>();
@@ -125,7 +128,7 @@ public class BinaryTree<T> {
         return null;
     }
     
-    public BinaryTreeNode<T> leftSibling(BinaryTreeNode<T> root, BinaryTreeNode<T> current) {
+    public BinaryTreeNode<T> leftSibling(BinaryTreeNode<T> root, BinaryTreeNode<T> current) {// 假设没有parent指针
         // 寻找兄弟用非递归方法比较好,因为递归框架通过 null 来判断是找到还是继续往下,
         // 但很可能没有left sibling啊!!!所以两种情况会耦合在一起,一种解决方式是用参数来返回, 函数返回true false来区分是否找到
         // 见 leftSiblingR方法
@@ -145,7 +148,7 @@ public class BinaryTree<T> {
         return null;
     }
     
-    public boolean leftSiblingR(BinaryTreeNode<T> root, BinaryTreeNode<T> current, ParamBox param) {
+    public boolean leftSiblingR(BinaryTreeNode<T> root, BinaryTreeNode<T> current, ParamBox param) {// 假设没有parent指针
         if(root == null) return false;
         if(root.right == current){
             param.pointer = root.left;

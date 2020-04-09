@@ -65,6 +65,19 @@ public class Tools {
         System.out.println();
     }
     
+    public static void printArray(Object[] a){
+        for (Object i : a) {
+            System.out.print(i + ", ");
+        }
+        System.out.println();
+    }
+    
+    public static void printlnArray(Object[] a){
+        for (Object i : a) {
+            System.out.println(i);
+        }
+    }
+    
     public static void printArray(IntRecord[] array){
         for (IntRecord i : array) {
             System.out.print(i.data + ", ");
@@ -79,12 +92,12 @@ public class Tools {
         System.out.println();
     }
 
-    public static void printArray(String[] a) {
-        for (String i : a) {
-            System.out.print(i + ", ");
-        }
-        System.out.println();
-    }
+//    public static void printArray(String[] a) {
+//        for (String i : a) {
+//            System.out.print(i + ", ");
+//        }
+//        System.out.println();
+//    }
 
     public static int[][] permutation2(int[] data) {
         int size = data.length;

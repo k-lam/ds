@@ -1,6 +1,6 @@
 import random
 
-round_count = 1000
+round_count = 5000
 pre_round = 1000
 random_from = 1
 random_to = 2147483648 - 1

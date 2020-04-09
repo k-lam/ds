@@ -9,23 +9,31 @@ import datastructure.Tools;
  *
  * @author linqiye
  */
-public class ArrayList {
+public class ArrayList<T> {
        
     private int maxSize;
     private int curSize;
     private int position;
-    private int[] data;
+    private T[] data;
     
     public ArrayList(int maxSize){
         this.maxSize = maxSize;
-        data = new int[maxSize];
+        data = (T[]) new Object[maxSize];
+    }
+    
+    public ArrayList(T[] data, int from, int maxSize){
+        this(maxSize);
+        for(int i = 0; i != data.length; i++){
+            this.data[from + i] = data[i];
+        }
+        this.curSize = from + data.length;
     }
     
     public int length(){
         return curSize;
     }
     
-    public boolean insert(int p, int value){
+    public boolean insert(int p, T value){
         if(maxSize <= curSize) return false;
         if(p > curSize || p < 0) return false;
         for(int i = curSize; i != p; i--){
@@ -34,6 +42,20 @@ public class ArrayList {
         data[p] = value;
         curSize += 1;
         return true;
+    }
+    
+    public boolean set(int p, T value){
+        if(p > curSize || p < 0){ return false;}
+        if(p == curSize){ 
+            if(curSize < maxSize){ curSize++; }
+            else{ return false;} 
+        }
+        data[p] = value;
+        return true;
+    }
+    
+    public T get(int pos){
+        return data[pos];
     }
     
     public boolean delete(int p){
